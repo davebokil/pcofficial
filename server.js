@@ -1,6 +1,8 @@
 var express = require("express");
+const exphbs = require('express-handlebars');
 var bodyParser = require("body-parser");
 var logger = require("morgan");
+const path = require('path');
 
 // Create a new express app
 const app = express();
@@ -9,6 +11,9 @@ const PORT = process.env.PORT || 3000;
 
 require('dotenv').config();
 
+// View engine setup
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
 
 
 // Run Morgan for Logging
@@ -23,16 +28,18 @@ app.use(express.static("./public"));
 // NodeMail
 const nodemailer = require('nodemailer');
 
+// Static folder
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
 
 
 // -------------------------------------------------
 
 // Main "/" Route. Redirect user to React App
 app.get("/", function(req, res) {
-    res.sendFile(__dirname + "/public/index.html");
+    res.render('home');
 });
 
-console.log(process.env.GUN_USER)
 app.post('/send', (req, res) => {
     const output = `
     <p>Hey Pat! You have a new contact request:</p>
@@ -76,7 +83,8 @@ app.post('/send', (req, res) => {
         console.log('Message sent: %s', info.messageId);
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
-        res.send('Email has been sent');
+        var msg = "Your message has been sent!"
+        res.render('confirmation');
     });
 });
 
