@@ -58,8 +58,8 @@ app.post('/send', (req, res) => {
     let transporter = nodemailer.createTransport({
         service: "Mailgun",
         auth: {
-            user: process.env.GUN_USER, // generated ethereal user
-            pass: process.env.GUN_PASS // generated ethereal password
+            user: process.env.MAILGUN_SMTP_LOGIN, // generated ethereal user
+            pass: process.env.MAILGUN_SMTP_PASSWORD // generated ethereal password
         },
         tls: {
             rejectUnauthorized: false
