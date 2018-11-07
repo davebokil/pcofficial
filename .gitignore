@@ -59,3 +59,10 @@ typings/
 
 # next.js build output
 .next
+
+#certs
+8f62d051eef24f40.crt
+gd_bundle-g2-g1.crt
+server.csr
+server.key
+server.pass.key
